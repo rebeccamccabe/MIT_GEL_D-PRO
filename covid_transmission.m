@@ -1,15 +1,6 @@
-clear
-close all
-%% constants
-p = parameters();
 
-%% variables
-n = 20;
-eff = linspace(0,1,n);
-cfm = linspace(0,20,n);
-[EFF,CFM] = meshgrid(eff,cfm);
+function P_infect = covid_transmission(EFF,CFM,p)
 
-%% calculations
 ACH = CFM*60/p.vol_cabin_ft3;
 diff = 0.005 * ACH.^0.06;
 expo = 1e-12./diff;
@@ -26,11 +17,6 @@ C_x = A .* p.dist_ppl.^expo + B;
 vir_breath = C_x * p.vol_lung;
 vir_total = p.mask_mult * vir_breath * p.breath_min * p.time;
 
-P_infect = 1-exp(-vir_total/p.vir_max)
+P_infect = 1-exp(-vir_total/p.vir_max);
 
-figure
-contourf(EFF,CFM,P_infect*100)
-colorbar
-xlabel('Total Filter Efficiency')
-ylabel('CFM')
-title('Probability of Infection (%)')
+end
