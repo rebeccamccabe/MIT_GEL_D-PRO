@@ -1,11 +1,11 @@
 close all
 %% Enter your design information here
-CFM = 12.5; % flow rate [ft^3/min]
-N_cells = 80; % number of fin cells on chosen PTC heater [-]
-V_air = .15; % air volume not including cabin [m^3]
+CFM = 10;       % flow rate [ft^3/min]
+N_cells = 40;   % number of fin cells on chosen PTC heater [-]
+V_air = .15;    % air volume not including cabin [m^3]
 mdot_frac = .1; % fraction of air heated (set this = 1 if the heater is not bypassed)
-m_heater = 0.05; % mass of active elements of chosen PTC heater [kg]
-A_frac = 0.5;    % fraction of the ambient heat transfer area between heater and sensor [-]
+m_heater = 0.05;% mass of active elements of chosen PTC heater [kg]
+A_frac = 0.5;   % fraction of the ambient heat transfer area between heater and sensor [-]
 
 %% No need to change anything below this line
 p = struct( ...  % constant parameters
@@ -45,35 +45,17 @@ figure
 subplot 121
 plot(tout/60,Tout)
 hold on
-plot(tout/60,22.4+(24.8-22.4)*(1-exp(-tout/(9*60))),'k--');
-plot([0 tf/60],[150 150],'--')
-legend('T_{out}','T_{in}','T_{sens}','T_s','T_{sens} Measured','T_s Measured')
+legend('T_{out}','T_{in}','T_{sens}','T_s')
 xlabel('Time (min)')
 ylabel('Temp (degC)')
 grid on
 subplot 122
 plot(tout/60,Qdot_conv,tout/60,Qdot_rad,tout/60,Qdot_heat,tout/60,Qdot_elec)
 hold on
-plot([0 5 5.1 10],[194 194 56 56],'k--')
-legend('Convection','Radiation','Heater Warm-up','Total Electrical','Measured')
+legend('Convection','Radiation','Heater Warm-up','Total Electrical')
 xlabel('Time (min)')
 ylabel('Power (W)')
 grid on
-
-% compare simulated against actual
-% max power, ss power, Ts final, Tsens at 5 and 10 minutes
-Pmax = max(Qdot_elec);
-Pss = Qdot_elec(end);
-Ts_ss = Tout(4,end);
-Tsens_10 = Tout(3,end);
-Tsens_5 = Tout(3,round(length(Tout)/2));
-
-err = zeros(5,1);
-err(1) = Pmax - 194;
-err(2) = Pss - 56;
-err(3) = Ts_ss - 150;
-err(4) = Tsens_10 - 24;
-err(5) = Tsens_5 - 23.4;
 
 function [err,Qdot_conv,Qdot_rad,Qdot_heat,Qdot_elec] = thermals(t,T,dTdt,p)
 
