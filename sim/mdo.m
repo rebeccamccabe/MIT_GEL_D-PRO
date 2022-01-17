@@ -11,7 +11,7 @@ num_filters = [1 2];
 which_heater = [1,2,3,4];
 num_heaters = [1,2];
 
-diameter_pipe_inches = 3;
+diameter_pipe_inches = [3 4];
 
 %% create every combination of design variables (full factorial)
 levels = [length(which_fan), length(num_fans), length(fans_series), ...

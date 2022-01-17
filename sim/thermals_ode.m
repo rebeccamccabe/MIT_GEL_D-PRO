@@ -56,6 +56,7 @@ legend('Convection','Radiation','Heater Warm-up','Total Electrical')
 xlabel('Time (min)')
 ylabel('Power (W)')
 grid on
+improvePlot
 
 function [err,Qdot_conv,Qdot_rad,Qdot_heat,Qdot_elec] = thermals(t,T,dTdt,p)
 
