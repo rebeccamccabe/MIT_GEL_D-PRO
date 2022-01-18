@@ -1,8 +1,11 @@
 
 function [flow,fan_power] = pipe_flow(fanP,fanQ,k_filter,N_cells,p)
 
+% solve for flow
 fun = @(cfm) deltaP(cfm,fanP,fanQ,k_filter,N_cells,p);
 flow = fminbnd(fun,0,max(fanQ));
+
+% plug solution back in
 [~,P_fan] = deltaP(flow,fanP,fanQ,k_filter,N_cells,p);
 Q_fan = flow / (.5886 * 3600); % cfm to m^3/s
 fan_power = P_fan * Q_fan;
@@ -16,7 +19,7 @@ function [dP,P_fan] = deltaP(cfm,fanP,fanQ,k_filter,N_cells,p)
     Ls = [p.L_duct,p.L_heater,p.L_enclosure,p.L_cabin];
     diams = [p.D_duct,p.D_heater,p.D_enclosure,p.D_cabin];
     k_minors = [p.k_minor_duct,p.k_minor_heater,p.k_minor_enclosure,p.k_minor_cabin];
-    Cds = [0 0 0 2];
+    Cds = [0 0 0 p.Cd];
     eps = [p.eps_duct,p.eps_heater,p.eps_enclosure,p.eps_cabin];
     
     areas = pi/4 * diams.^2;
@@ -28,10 +31,6 @@ function [dP,P_fan] = deltaP(cfm,fanP,fanQ,k_filter,N_cells,p)
         f = 64 ./ Re;
     else
         f = (-1.8 * log10(6.9 ./ Re + (eps./diams/3.7).^1.11)).^-2;
-%         for i=1:length(Re)
-%             colebrook = @(f) 1/sqrt(f) + 2*log10(e/d / 3.7 + 2.51/(Re(i)*sqrt(f)));
-%             f(i) = fsolve(colebrook,0.01);
-%         end
     end
     
     P_dyn = .5 * p.rho * vels.^2;

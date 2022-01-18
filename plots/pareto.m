@@ -1,4 +1,5 @@
-close all;clear;clc
+function [] = pareto()
+close all;clc
 
 %% Load spreadsheet data
 file = 'C:\Users\chess\OneDrive\Documents\MIT\MIT Classes\16.810\V1 Results';
@@ -77,7 +78,7 @@ figure
 plot([1 1],[0 2],'k:','LineWidth',0.5,'HandleVisibility','off')
 hold on
 plot([0 2],[1 1],'k:','LineWidth',0.5,'HandleVisibility','off')
-plot(opt_cost_sorted,opt_perf_sorted,'k--','DisplayName','Pareto Front')
+plot(opt_cost_sorted,opt_perf_sorted,'k--','DisplayName','Measured Pareto Front')
 scatter(cost,perf,100,'c^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests')
 plot(1,1,'rx','DisplayName','GMW Baseline')
 plot(min([cost 1]),max([perf 1]),'gp','DisplayName','Utopia Point')
@@ -88,3 +89,4 @@ ylabel('Performance')
 title('Version 1 Results')
 improvePlot
 legend
+end

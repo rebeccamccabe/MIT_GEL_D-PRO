@@ -1,4 +1,4 @@
-function [mass,price] = catalog(which_fan,num_fans,which_filter,num_filters,which_heater,num_heaters)
+function [mass,price] = catalog(which_fan,num_fans,which_filter,num_filters,which_heater,num_heaters,p)
 
 % fans
 if which_fan == 1
@@ -43,7 +43,7 @@ heater_mass = heater_mass * num_heaters;
 heater_price = heater_price * num_heaters;
 
 % total
-mass = fan_mass + filter_mass + heater_mass;
+mass = fan_mass + filter_mass + heater_mass + p.extra_mass;
 price = fan_price + filter_price + heater_price;
 
 end

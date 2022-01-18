@@ -1,37 +1,11 @@
-function [time,power] = thermals_ode(CFM, N_cells, m_heater)
+function [time,power] = thermals_ode(CFM, N_cells, m_heater, p)
 
 close all
-%% Enter your design information here
-%CFM = 10;       % flow rate [ft^3/min]
-%N_cells = 40;   % number of fin cells on chosen PTC heater [-]
-V_air = .15;    % air volume not including cabin [m^3]
-mdot_frac = .1; % fraction of air heated (set this = 1 if the heater is not bypassed)
-%m_heater = 0.05;% mass of active elements of chosen PTC heater [kg]
-A_frac = 0.5;   % fraction of the ambient heat transfer area between heater and sensor [-]
 
 %% No need to change anything below this line
-p = struct( ...  % constant parameters
-            'V',0.42+V_air,...              % volume of air [m^3] 
-            'R0',0.56,...                   % PTC resistance at T=0 degC [Ohms]
-            'RT',1.025,...                  % PTC resistance exponent base [Ohms^(1/degC)]
-            'h_amb',0.1,...                 % heat transfer coeff to ambient [W / (m^2 degC)]
-            'A_amb',3.4,...                 % area for heat transfer to ambient [m^2]
-            'A_frac',A_frac,...             % fraction of the ambient heat transfer area between heater and sensor [-]
-            'h_heater',5,...                % heat transfer coeff of heater [W / (m^2 degC)]
-            'A_heater',300e-6*N_cells,...   % area for heat transfer by heater [m^2]
-            'm_heater',m_heater,...         % mass of active elements of chosen PTC heater [kg]           
-            'mdot_frac',mdot_frac,...       % fraction of air heated [-]
-            'eps',0.1,...                   % emissivity of heater [-]
-            'c_heater',900,...              % specific heat of aluminum
-            'm_dot',1.2*CFM*472e-6*mdot_frac,...% mass flow rate [m^3/s]
-            'cp',1000,...                   % specific heat at const pressure of air [J/(kg degC)]
-            'cv',718,...                    % specific heat at const volume of air [J/(kg degC)]
-            'T_amb',22,...                  % ambient temp [degC]
-            'rho',1.2,...                   % density of air [kg/m^3]                      
-            'sigma',5.67e-8,...             % Stefan-Boltzmann constant [W / (m^2 K^4)]
-            'voltage',12 ...                % DC voltage [V]           
-        );
-            %'T_s',150,...                   % surface temp of heater [degC]
+p.A_heater = p.A_fin*N_cells;        % area for heat transfer by heater [m^2]
+p.m_dot = 1.2*CFM*472e-6*p.mdot_frac; % mass flow rate [m^3/s]
+p.m_heater = m_heater;              % mass of active elements of chosen PTC heater [kg]   
 
 tf = 10*60; % 10 minute simulation
 T0 = 22.4 * [1 1 1 1]; % initial temps
