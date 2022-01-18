@@ -29,7 +29,7 @@ design = [which_fan(idxs(:,1))' num_fans(idxs(:,2))' fans_series(idxs(:,3))' ...
         
 %% simulate each combination
 [flow,power,effic,time,mass,price] = simulation(design,p);
-%%
+%% actual baseline
 base_price = 525;
 base_power = 109.2;
 base_mass = 4.29;
@@ -37,6 +37,9 @@ base_vel = 0.5;
 base_time = 600;
 base_effic = .8;
 base_flow = 12.5;
+%% predicted baseline
+base_design = [2 3 0 2 1 3 1 0];
+[base_flow,base_power,base_effic,base_time,base_mass,base_price] = simulation(base_design,p);
 
 vel = 0; % assume all designs can achieve perfect passenger airspeed
 [cost,perf] = cost_perf_function(price, base_price, ...
@@ -51,3 +54,7 @@ vel = 0; % assume all designs can achieve perfect passenger airspeed
 %% plot pareto front
 figure
 plot(cost,perf,'*')
+hold on
+plot(1,1,'rx','MarkerSize',20)
+xlabel('Cost')
+ylabel('Performance')
