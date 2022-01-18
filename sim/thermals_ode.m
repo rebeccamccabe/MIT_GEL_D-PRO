@@ -1,10 +1,12 @@
+function [time,power] = thermals_ode(CFM, N_cells, m_heater)
+
 close all
 %% Enter your design information here
-CFM = 10;       % flow rate [ft^3/min]
-N_cells = 40;   % number of fin cells on chosen PTC heater [-]
+%CFM = 10;       % flow rate [ft^3/min]
+%N_cells = 40;   % number of fin cells on chosen PTC heater [-]
 V_air = .15;    % air volume not including cabin [m^3]
 mdot_frac = .1; % fraction of air heated (set this = 1 if the heater is not bypassed)
-m_heater = 0.05;% mass of active elements of chosen PTC heater [kg]
+%m_heater = 0.05;% mass of active elements of chosen PTC heater [kg]
 A_frac = 0.5;   % fraction of the ambient heat transfer area between heater and sensor [-]
 
 %% No need to change anything below this line
@@ -37,26 +39,33 @@ func = @(t,T,dTdt)thermals(t,T,dTdt,p); % ode function
 dTdt0 = decic(func,0,T0,[1 0 0 0],[.001 .001 .001 .001],[0 0 0 0]); % initial temp derivatives
 
 sol = ode15i(func, [0 tf], T0, dTdt0); % solve ode
-tout = 0:30:tf;
+tout = 0:15:tf;
 [Tout,dTdtout] = deval(sol,tout);
 [~,Qdot_conv,Qdot_rad,Qdot_heat,Qdot_elec] = thermals(tout,Tout,dTdtout,p);
 
-figure
-subplot 121
-plot(tout/60,Tout)
-hold on
-legend('T_{out}','T_{in}','T_{sens}','T_s')
-xlabel('Time (min)')
-ylabel('Temp (degC)')
-grid on
-subplot 122
-plot(tout/60,Qdot_conv,tout/60,Qdot_rad,tout/60,Qdot_heat,tout/60,Qdot_elec)
-hold on
-legend('Convection','Radiation','Heater Warm-up','Total Electrical')
-xlabel('Time (min)')
-ylabel('Power (W)')
-grid on
-improvePlot
+% figure
+% subplot 121
+% plot(tout/60,Tout)
+% hold on
+% legend('T_{out}','T_{in}','T_{sens}','T_s')
+% xlabel('Time (min)')
+% ylabel('Temp (degC)')
+% grid on
+% subplot 122
+% plot(tout/60,Qdot_conv,tout/60,Qdot_rad,tout/60,Qdot_heat,tout/60,Qdot_elec)
+% hold on
+% legend('Convection','Radiation','Heater Warm-up','Total Electrical')
+% xlabel('Time (min)')
+% ylabel('Power (W)')
+% grid on
+% improvePlot
+
+% extract time to achieve 1 degC temp rise
+idx = find(Tout(3,:) > (T0(3) + 1),1);
+time = tout(idx);
+power = Qdot_elec(end);
+
+end
 
 function [err,Qdot_conv,Qdot_rad,Qdot_heat,Qdot_elec] = thermals(t,T,dTdt,p)
 
