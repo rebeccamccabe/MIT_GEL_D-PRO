@@ -2,7 +2,7 @@ function [] = pareto()
 close all;clc
 
 %% Load spreadsheet data
-file = 'C:\Users\chess\OneDrive\Documents\MIT\MIT Classes\16.810\V1 ResultsG';
+file = 'C:\Users\chess\OneDrive\Documents\MIT\MIT Classes\16.810\V1 Results';
 files = {[file ' Team 1.xlsx'], [file ' Team 2.xlsx'], ...
     [file ' Team 3.xlsx'], [file ' Team 4.xlsx'], [file ' GMW Baseline.xlsx']};
 
