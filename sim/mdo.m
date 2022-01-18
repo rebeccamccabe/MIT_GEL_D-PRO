@@ -9,15 +9,15 @@ p = parameters();
 % Feel free to change the design variables to encode different designs, for
 % example first_fan = [1 2 3] and second_fan = [1 2 3]
 
-which_fan = [1 2 3];
-num_fans = [1 2];
-fans_series = [0 1];
+which_fan = [1; 2; 3];
+num_fans = [1; 2];
+fans_series = [0; 1];
 
-which_filter = [1 2 3];
-num_filters = [1 2];
+which_filter = [1 ;2 ;3];
+num_filters = [1 ;2];
 
-which_heater = [1,2,3];
-num_heaters = [1,2];
+which_heater = [1;2;3];
+num_heaters = [1;2];
 
 %% create every combination of design variables (full factorial)
 levels = [length(which_fan), length(num_fans), length(fans_series), ...
@@ -25,9 +25,9 @@ levels = [length(which_fan), length(num_fans), length(fans_series), ...
             length(which_heater), length(num_heaters)  ];
 idxs = fullfact(levels);
 
-design = [which_fan(idxs(:,1))' num_fans(idxs(:,2))' fans_series(idxs(:,3))' ...
-            which_filter(idxs(:,4))' num_filters(idxs(:,5))' ...
-            which_heater(idxs(:,6))' num_heaters(idxs(:,7))' ];
+design = [which_fan(idxs(:,1)) num_fans(idxs(:,2)) fans_series(idxs(:,3)) ...
+            which_filter(idxs(:,4)) num_filters(idxs(:,5)) ...
+            which_heater(idxs(:,6)) num_heaters(idxs(:,7)) ];
         
 %% simulate each combination
 [flow,power,effic,time,mass,price] = simulation(design,p);
