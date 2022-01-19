@@ -1,10 +1,10 @@
 function [N_cells,m_heater] = heaters(which_heater,num_heaters)
 if which_heater == 1
     N_cells = 120;
-    m_heater = .03;
+    m_heater = .02;
 elseif which_heater == 2
     N_cells = 120;
-    m_heater = 0.03;
+    m_heater = 0.034;
 elseif which_heater == 3
     N_cells = 240;
     m_heater = 0.06;

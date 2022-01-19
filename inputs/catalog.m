@@ -30,10 +30,10 @@ filter_price = filter_price * num_filters;
 
 % heaters
 if which_heater == 1
-    heater_mass = .07; % double check
+    heater_mass = .074;
     heater_price = 30;
 elseif which_heater == 2
-    heater_mass = .11; % double check
+    heater_mass = .128;
     heater_price = 45;
 elseif which_heater == 3
     heater_mass = .132;
