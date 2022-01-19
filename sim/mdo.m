@@ -1,5 +1,5 @@
 clear
-%% paramters
+%% parameters
 % open this file and adjust parameters to reflect your system and tune the 
 % model to fit your measurements
 p = parameters();
