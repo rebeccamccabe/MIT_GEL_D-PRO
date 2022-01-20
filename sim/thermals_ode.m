@@ -7,6 +7,8 @@ p.A_heater = p.A_fin*N_cells;        % area for heat transfer by heater [m^2]
 p.m_dot = 1.2*CFM*472e-6*p.mdot_frac; % mass flow rate [m^3/s]
 p.m_heater = m_heater;              % mass of active elements of chosen PTC heater [kg]   
 
+p.h_heater = heat_transfer_correlation(CFM,N_cells,p);
+
 tf = 10*60; % 10 minute simulation
 T0 = 22.4 * [1 1 1 1]; % initial temps
 func = @(t,T,dTdt)thermals(t,T,dTdt,p); % ode function

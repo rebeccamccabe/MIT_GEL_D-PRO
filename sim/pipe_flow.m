@@ -25,7 +25,7 @@ function [dP,P_fan] = deltaP(cfm,fanP,fanQ,k_filter,N_cells,p)
     areas = pi/4 * diams.^2;
     vels = cfm / (.5886 * 3600) ./ areas;
     vels(2) = vels(2) / N_cells; % heater flow splits, this assumes no bypass and that multiple heaters are in parallel
-    Re = p.rho * vels .* diams / p.nu;
+    Re = p.rho * vels .* diams / p.mu;
     
     if Re < 4000
         f = 64 ./ Re;

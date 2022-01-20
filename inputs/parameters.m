@@ -1,7 +1,7 @@
 function p = parameters()
 %% thermals
 V_air = .15;    % air volume not including cabin [m^3]
-mdot_frac = .1; % fraction of air heated [-] (set this = 1 if the heater is not bypassed)
+mdot_frac = .7; % fraction of air heated [-] (set this = 1 if the heater is not bypassed)
 A_frac = 0.5;   % fraction of the ambient heat transfer area between heater and sensor [-]
 
 p = struct( ...  % constant parameters
@@ -21,7 +21,8 @@ p = struct( ...  % constant parameters
             'T_amb',22,...                  % ambient temp [degC]
             'rho',1.2,...                   % density of air [kg/m^3]                      
             'sigma',5.67e-8,...             % Stefan-Boltzmann constant [W / (m^2 K^4)]
-            'voltage',12 ...                % DC voltage [V]           
+            'voltage',12,...                % DC voltage [V]
+            'k_air',30e-3 ...               % thermal conductivity of air [W/(m degC)]
         );
 
 %% pipe flow
@@ -41,7 +42,7 @@ p.k_minor_enclosure = 2;% -
 p.k_minor_cabin = 2;    % -
 
 p.rho = 1.2;            % density of air [kg/m^3]
-p.nu = 18.3e-6;         % dynamic viscosity of air [Pa s]
+p.mu = 18.3e-6;         % dynamic viscosity of air [Pa s]
 
 p.eps_duct = 0.01;      % [m]
 p.eps_heater = 2e-6;    % [m]
