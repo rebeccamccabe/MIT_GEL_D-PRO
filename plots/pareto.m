@@ -2,10 +2,13 @@ function [] = pareto()
 close all;clc
 
 %% Load spreadsheet data
-file = 'C:\Users\chess\OneDrive\Documents\MIT\MIT Classes\16.810\V1 Results';
-files = {[file ' Team 1.xlsx'], [file ' Team 2.xlsx'], ...
-    [file ' Team 3.xlsx'], [file ' Team 4.xlsx'], [file ' GMW Baseline.xlsx']};
-
+folder = 'C:\Users\chess\OneDrive\Documents\MIT\MIT Classes\16.810\';
+files = {[folder 'V1 Results Team 1.xlsx'], [folder 'V1 Results Team 2.xlsx'], ...
+    [folder 'V1 Results Team 3.xlsx'], [folder 'V1 Results Team 4.xlsx'], ...
+    [folder 'V2 Results Team 1.xlsx'], [folder 'V2 Results Team 2.xlsx'], ...
+    [folder 'V2 Results Team 3.xlsx'], [folder 'V2 Results Team 4.xlsx'], ...
+    [folder 'V3 Results Team 2.xlsx'], ...
+    [folder 'V1 Results GMW Baseline.xlsx']};
 
 
 cost_cell = 10;
@@ -86,14 +89,18 @@ plot([1 1],[0 2],'k:','LineWidth',0.5,'HandleVisibility','off')
 hold on
 plot([0 2],[1 1],'k:','LineWidth',0.5,'HandleVisibility','off')
 plot(opt_cost_sorted,opt_perf_sorted,'k--','DisplayName','Measured Pareto Front')
-scatter(cost,perf,100,'c^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests')
+scatter(cost(1:4),perf(1:4),200,'c^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V1')
+scatter(cost(5:8),perf(5:8),200,'m^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V2')
+scatter(cost(9),  perf(9),  200,'w^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V3')
+text(cost-.01,perf,{'1','2','3','4','1','2','3','4','2'})
+
 plot(1,1,'rx','DisplayName','GMW Baseline')
 plot(min([cost 1]),max([perf 1]),'gp','DisplayName','Utopia Point')
-xlim([0.9 1.8])
-ylim([0.9 1.6])
+xlim([0.5 1.8])
+ylim([0.5 1.8])
 xlabel('Cost')
 ylabel('Performance')
-title('Version 1 Results')
+title('Version 1 and 2 Results')
 improvePlot
-legend
+legend('Location','southeast')
 end
