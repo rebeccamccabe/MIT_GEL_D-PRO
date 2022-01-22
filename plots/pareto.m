@@ -7,7 +7,7 @@ files = {[folder 'V1 Results Team 1.xlsx'], [folder 'V1 Results Team 2.xlsx'], .
     [folder 'V1 Results Team 3.xlsx'], [folder 'V1 Results Team 4.xlsx'], ...
     [folder 'V2 Results Team 1.xlsx'], [folder 'V2 Results Team 2.xlsx'], ...
     [folder 'V2 Results Team 3.xlsx'], [folder 'V2 Results Team 4.xlsx'], ...
-    [folder 'V3 Results Team 2.xlsx'], ...
+    [folder 'V3 Results Team 2.xlsx'], [folder 'V4 Results Team 2.xlsx'], ...
     [folder 'V1 Results GMW Baseline.xlsx']};
 
 
@@ -21,9 +21,9 @@ vel_cells = 36:37;
 
 start_cell = 6;
 
-for i=1:length(files)
-    if exist(files{i},'file')
-        mat = readmatrix(files{i},'Range','D:D');
+for team=1:length(files)
+    if exist(files{team},'file')
+        mat = readmatrix(files{team},'Range','D:D');
 
         c = mat(cost_cell-start_cell);
         p = mat(pwr_cell-start_cell);
@@ -40,8 +40,8 @@ for i=1:length(files)
         [c,p,m,t,f,e,v] = deal(0); % when team results sheets aren't available, set = 0.
     end
     
-    if i<length(files) % teams  
-        [price(i),power(i),mass(i),time(i),flow(i),effic(i),vel(i)] ...
+    if team<length(files) % teams  
+        [price(team),power(team),mass(team),time(team),flow(team),effic(team),vel(team)] ...
             = deal(c,p,m,t,f,e,v);
     else % baseline
         base_price = c;
@@ -85,14 +85,26 @@ opt_perf_sorted = opt_perf(sort_idxs);
 
 %% make pareto front graph
 figure
+% axes to show dominated
 plot([1 1],[0 2],'k:','LineWidth',0.5,'HandleVisibility','off')
 hold on
 plot([0 2],[1 1],'k:','LineWidth',0.5,'HandleVisibility','off')
+% pareto front
 plot(opt_cost_sorted,opt_perf_sorted,'k--','DisplayName','Measured Pareto Front')
+% team tests
 scatter(cost(1:4),perf(1:4),200,'c^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V1')
 scatter(cost(5:8),perf(5:8),200,'m^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V2')
-scatter(cost(9),  perf(9),  200,'w^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V3')
-text(cost-.01,perf,{'1','2','3','4','1','2','3','4','2'})
+scatter(cost(9:10),perf(9:10),200,'y^','Filled','MarkerEdgeColor','b','LineWidth',1,'DisplayName','Team Tests V3/4')
+% labels
+text(cost-.01,perf,{'1','2','3','4','1','2','3','4','2','2'})
+% dashes showing improvement
+for team=1:4
+    idxs = [0,4]+team;
+    if team==2
+        idxs = [idxs 9 10];
+    end
+	plot(cost(idxs),perf(idxs),'k:','LineWidth',0.5,'HandleVisibility','off')
+end
 
 plot(1,1,'rx','DisplayName','GMW Baseline')
 plot(min([cost 1]),max([perf 1]),'gp','DisplayName','Utopia Point')
@@ -100,7 +112,7 @@ xlim([0.5 1.8])
 ylim([0.5 1.8])
 xlabel('Cost')
 ylabel('Performance')
-title('Version 1 and 2 Results')
+title('Final Results')
 improvePlot
 legend('Location','southeast')
 end
