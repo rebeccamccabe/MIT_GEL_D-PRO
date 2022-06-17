@@ -4,6 +4,11 @@ V_air = .15;    % air volume not including cabin [m^3]
 mdot_frac = .7; % fraction of air heated [-] (set this = 1 if the heater is not bypassed)
 A_frac = 0.5;   % fraction of the ambient heat transfer area between heater and sensor [-]
 
+% R = a * (T - h)^2 + k
+% a = 0.0013
+% h = 36
+% k = 0.6
+
 p = struct( ...  % constant parameters
             'A_fin',300e-6,...              % cross sectional area of a single fin [m^2]
             'V',0.42+V_air,...              % volume of air [m^3] 

@@ -8,6 +8,7 @@ function [fanP,fanQ] = fan_curve(which_fan,num_fans,fans_series)
         fanQ = [182.5 138.1 93.5 42.7 0]*.5886; % m3/hr converted to CFM
         fanP = [0.0 1.21 1.74 3.17 4.18]*9.807; % mm water converter to Pa
     elseif which_fan == 3
+        % A14 3000 rpm
         fanQ = [269.3 208.2 139.3 65.7 0]*.5886; % m3/hr converted to CFM
         fanP = [0 2.63 3.98 7.67 10.52]*9.807; % mm water converter to Pa        
     end
