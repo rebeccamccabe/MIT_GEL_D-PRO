@@ -2,7 +2,7 @@ function [] = pareto()
 close all;clc
 
 %% Load spreadsheet data
-folder = 'C:\Users\chess\OneDrive\Documents\MIT\MIT Classes\16.810\';
+folder = 'C:\Users\rgm222\OneDrive\Documents\MIT\MIT Classes\16.810\';
 files = {[folder 'V1 Results Team 1.xlsx'], [folder 'V1 Results Team 2.xlsx'], ...
     [folder 'V1 Results Team 3.xlsx'], [folder 'V1 Results Team 4.xlsx'], ...
     [folder 'V2 Results Team 1.xlsx'], [folder 'V2 Results Team 2.xlsx'], ...
@@ -19,7 +19,7 @@ flow_cell = 32;
 time_cell = 35;
 vel_cells = 36:37;
 
-start_cell = 6;
+start_cell = 5; % number of empty cells at beginning of col D in spreadsheet
 
 for team=1:length(files)
     if exist(files{team},'file')
@@ -37,6 +37,7 @@ for team=1:length(files)
         vels = mat(vel_cells-start_cell);
         v = sum(abs(vels-0.4));
     else
+        warning(["Can't find results file for team ",num2str(team),". Setting to zero."])
         [c,p,m,t,f,e,v] = deal(0); % when team results sheets aren't available, set = 0.
     end
     
