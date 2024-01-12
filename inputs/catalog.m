@@ -23,13 +23,16 @@ elseif which_filter == 2
     filter_price = 45;
 elseif which_filter == 3
     filter_mass = .117;
-    filter_price = 150;
+    filter_price = 100;
 end
 filter_mass = filter_mass * num_filters;
 filter_price = filter_price * num_filters;
 
 % heaters
-if which_heater == 1
+if which_heater == 0
+    heater_mass = 0.038;
+    heater_price = 15;
+elseif which_heater == 1
     heater_mass = .074;
     heater_price = 30;
 elseif which_heater == 2

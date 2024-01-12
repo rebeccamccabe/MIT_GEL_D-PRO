@@ -7,17 +7,17 @@ p = parameters();
 %% design variables and levels
 % For now, this model assumes that if multiple parts are used, they are the same model.
 % Feel free to change the design variables to encode different designs, for
-% example first_fan = [1 2 3] and second_fan = [1 2 3]
+% example if you want to examine using two different fans, first_fan = [1 2 3] and second_fan = [1 2 3]
 
 which_fan = [1; 2; 3];
 num_fans = [1; 2];
 fans_series = [0; 1];
 
-which_filter = [1 ;2 ;3];
-num_filters = [1 ;2];
+which_filter = [1; 2; 3];
+num_filters = [1; 2];
 
-which_heater = [1;2;3];
-num_heaters = [1;2];
+which_heater = [0; 1; 2; 3];
+num_heaters = [1; 2];
 
 %% create every combination of design variables (full factorial)
 levels = [length(which_fan), length(num_fans), length(fans_series), ...
