@@ -1,3 +1,5 @@
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=rebeccamccabe/MIT_GEL_D-PRO)
+
 # For everyone running any file:
 - Highlight the folder all the files in this repository. Right click and select Add to Path. 
 - If you get the error `'<your_function>' is not found in the current folder or on the MATLAB path`, you haven't done this step correctly
