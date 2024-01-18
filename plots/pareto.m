@@ -37,7 +37,7 @@ for team=1:length(files)
         vels = mat(vel_cells-start_cell);
         v = sum(abs(vels-0.4));
     else
-        warning(["Can't find results file for team ",num2str(team),". Setting to zero."])
+        warning(['Cannot find results file for team ',num2str(team),'. Setting to zero.'])
         [c,p,m,t,f,e,v] = deal(0); % when team results sheets aren't available, set = 0.
     end
     
