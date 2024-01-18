@@ -19,22 +19,22 @@ tout = 0:15:tf;
 [Tout,dTdtout] = deval(sol,tout);
 [~,Qdot_conv,Qdot_rad,Qdot_heat,Qdot_elec] = thermals(tout,Tout,dTdtout,p);
 
-% figure
-% subplot 121
-% plot(tout/60,Tout)
-% hold on
-% legend('T_{out}','T_{in}','T_{sens}','T_s')
-% xlabel('Time (min)')
-% ylabel('Temp (degC)')
-% grid on
-% subplot 122
-% plot(tout/60,Qdot_conv,tout/60,Qdot_rad,tout/60,Qdot_heat,tout/60,Qdot_elec)
-% hold on
-% legend('Convection','Radiation','Heater Warm-up','Total Electrical')
-% xlabel('Time (min)')
-% ylabel('Power (W)')
-% grid on
-% improvePlot
+figure
+subplot 121
+plot(tout/60,Tout)
+hold on
+legend('T_{out}','T_{in}','T_{sens}','T_s')
+xlabel('Time (min)')
+ylabel('Temp (degC)')
+grid on
+subplot 122
+plot(tout/60,Qdot_conv,tout/60,Qdot_rad,tout/60,Qdot_heat,tout/60,Qdot_elec)
+hold on
+legend('Convection','Radiation','Heater Warm-up','Total Electrical')
+xlabel('Time (min)')
+ylabel('Power (W)')
+grid on
+improvePlot
 
 % extract time to achieve 1 degC temp rise
 idx = find(Tout(3,:) > (T0(3) + 1),1);
@@ -73,7 +73,12 @@ function [err,Qdot_conv,Qdot_rad,Qdot_heat,Qdot_elec] = thermals(t,T,dTdt,p)
     
     % fourth equation: temperature rise of the heater element
     dTsdt = dTdt(4,:);
-    R = p.R0 * p.RT.^T_s;
+    a = 0.0013;
+    h = 36;
+    k = .6;
+    R = a * (T_s - h).^2 + k; % quadratic resistance equation
+    % from https://docs.google.com/spreadsheets/d/1MDioJJuXCdZIBRvgXYNusP-34WRageahZKEi6vLx2QU/edit#gid=0
+    R = min(R,2.6);
     Qdot_elec = p.voltage^2 ./ R;
     Qdot_heat = p.m_heater * p.c_heater * dTsdt;
     err(4,:) = Qdot_elec - Qdot_tot - Qdot_heat;
